@@ -548,13 +548,13 @@ bool List::operator==(const List& ob)const
 const List List::operator+(const List& ob)
 {
     Node* tmp = this->l_small;
-    Node* tmp1 = ob.l_small;
     List res;
     while(tmp)
     {
         res.push_back(tmp->data);
         tmp = tmp->great;
     }
+    tmp = ob.l_small;
     while(tmp1)
     {
         res.push_back(tmp1->data);
