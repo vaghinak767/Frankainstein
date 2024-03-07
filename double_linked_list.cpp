@@ -555,10 +555,594 @@ const List List::operator+(const List& ob)
         tmp = tmp->great;
     }
     tmp = ob.l_small;
-    while(tmp1)
+    while(tmp)
     {
-        res.push_back(tmp1->data);
-        tmp1 = tmp1->great;
+        res.push_back(tmp->data);
+        tmp = tmp->great;
     }
     return res;
+}
+
+List::base_iterator::~base_iterator()
+{
+	this->ptr = nullptr;
+}
+
+bool List::base_iterator::operator==(const base_iterator& rhv)const
+{
+	return this->ptr == rhv.ptr;
+}
+
+bool List::base_iterator::operator!=(const base_iterator& rhv)const
+{
+	return this->ptr != rhv.ptr;
+}
+
+explicit List::base_iterator::base_iterator(Node* ptr)
+{
+    this->ptr = ptr;
+}
+
+List::const_iterator::const_iterator(const base_iterator& rhv) : base_iterator(rhv)
+{
+	ptr = nullptr;
+}
+
+List::const_iterator::const_iterator(base_iterator&& rhv) : base_iterator(rhv)
+{
+	this->ptr = rhv.ptr;
+}
+
+List::const_reference List::const_iterator::operator*() const
+{
+    return ptr->data;
+}
+
+List::const_pointer List::const_iterator::operator->() const
+{
+    return &(ptr->data);
+}
+
+const List::const_iterator& List::const_iterator::operator++()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    ptr = ptr->next;
+    return *this;
+				
+} 
+
+const List::const_iterator& List::const_iterator::operator=(const base_iterator& rhv)
+{
+    this->ptr = rhv.ptr;
+}
+
+const List::const_iterator& List::const_iterator::operator=(base_iterator&& rhv)
+{
+    this->ptr = rhv.ptr;
+}
+
+const List::const_iterator List::const_iterator::operator++(value_type)
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    const_iterator tmp = *this;
+    ptr = ptr->next;
+    return tmp;
+} 
+
+const List::const_iterator& List::const_iterator::operator--()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    ptr = ptr->previous;
+    return *this;
+}
+
+const List::const_iterator List::const_iterator::operator--(value_type)
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    const_iterator tmp = *this;
+    ptr = ptr->previous;
+    return tmp;
+}
+
+explicit List::const_iterator::const_iterator(Node* ptr) : base_iterator(ptr)
+{
+    this->ptr = ptr;
+}
+
+List::iterator::iterator(const base_iterator& rhv) : const_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::iterator::iterator(base_iterator&& rhv) : const_iterator(rhv)
+{
+    *this= rhv;
+}
+
+List::reference List::iterator::operator*()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return ptr->data;
+}
+
+List::pointer List::iterator::operator->()
+{
+    return &(ptr->data);
+}
+
+const List::iterator& List::iterator::operator=(const base_iterator& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+const List::iterator& List::iterator::operator=(base_iterator&& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+explicit List::iterator::iterator(Node* ptr) : const_iterator(ptr)
+{
+    this->ptr = ptr;
+}
+
+List::const_reverse_iterator::const_reverse_iterator(const base_iterator& rhv) : base_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::const_reverse_iterator::const_reverse_iterator(base_iterator&& rhv) : base_iterator(rhv)
+{
+    *this = rhv;
+}
+
+const List::const_reverse_iterator& List::const_reverse_iterator::operator=(const base_iterator& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+List::const_reference List::const_reverse_iterator::operator*() const
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return ptr->data;
+}
+
+List::const_pointer List::const_reverse_iterator::operator->()const
+{
+    return &(ptr->data);
+}
+
+const List::const_reverse_iterator& List::const_reverse_iterator::operator++()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    ptr = ptr->next;
+    return *this;
+}
+
+const List::const_reverse_iterator List::const_reverse_iterator::operator++(value_type)
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    const_reverse_iterator tmp = *this;
+    ptr = ptr->next;
+    return tmp;
+}
+
+const List::const_reverse_iterator& List::const_reverse_iterator::operator--()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    ptr = ptr->previous;
+    return *this;
+}
+
+const List::const_reverse_iterator List::const_reverse_iterator::operator--(value_type)
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    const_reverse_iterator tmp = *this;
+    ptr = ptr->previous;
+    return tmp;
+}
+
+explicit List::const_reverse_iterator::const_reverse_iterator(Node* ptr) : base_iterator(ptr)
+{
+    this->ptr = ptr;
+}
+
+List::reverse_iterator::reverse_iterator(const base_iterator& rhv) : const_reverse_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::reverse_iterator::reverse_iterator(base_iterator&& rhv) : const_reverse_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::reference List::reverse_iterator::operator*()
+{
+    return ptr->data;
+}
+
+List::pointer List::reverse_iterator::operator->()
+{
+    return &(ptr->data); 
+}
+
+const List::reverse_iterator& List::reverse_iterator::operator=(const base_iterator& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+const List::reverse_iterator& List::reverse_iterator::operator=(base_iterator&& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+explicit List::reverse_iterator::reverse_iterator(Node* ptr) : const_reverse_iterator(ptr)
+{
+    this->ptr = ptr;
+}
+
+List::const_asc_iterator::const_asc_iterator(const base_iterator& rhv) : base_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::const_asc_iterator::const_asc_iterator(base_iterator&& rhv) : base_iterator(rhv)
+{
+    *this = rhv;
+}
+
+const List::const_asc_iterator& List::const_asc_iterator::operator=(const base_iterator& rhv)
+{
+    *this = rhv;
+}
+
+const List::const_asc_iterator& List::const_asc_iterator::operator=(base_iterator&& rhv)
+{
+    *this = rhv;
+}
+
+List::const_reference List::const_asc_iterator::operator*() const
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return ptr->data;
+}
+
+List::const_pointer List::const_asc_iterator::operator->() const
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return &(ptr->data);
+}
+
+const List::const_asc_iterator& List::const_asc_iterator::operator++()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    ptr = ptr->great;
+    return *this;
+}
+
+const List::const_asc_iterator List::const_asc_iterator::operator++(value_type)
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    const_asc_iterator tmp = *this;
+    ptr = ptr->great;
+    return tmp;
+}
+
+const List::const_asc_iterator& List::const_asc_iterator::operator--()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    ptr = ptr->small;
+    return *this;
+}
+
+const List::const_asc_iterator List::const_asc_iterator::operator--(value_type)
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    const_asc_iterator tmp = *this;
+    ptr = ptr->small;
+    return tmp;
+}
+
+explicit List::const_asc_iterator::const_asc_iterator(Node* ptr) : base_iterator(ptr)
+{
+    this->ptr = ptr;
+}
+
+List::asc_iterator::asc_iterator(const base_iterator& rhv) : const_asc_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::asc_iterator::asc_iterator(base_iterator&& rhv) : const_asc_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::reference List::asc_iterator::operator*()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return ptr->data;
+}
+
+List::pointer List::asc_iterator::operator->()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return &(ptr->data);
+}
+
+const List::asc_iterator& List::asc_iterator::operator=(const base_iterator& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+const List::asc_iterator& List::asc_iterator::operator=(base_iterator&& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+explicit List::asc_iterator::asc_iterator(Node* ptr) : const_asc_iterator(ptr)
+{
+    this->ptr = ptr;
+}
+
+List::const_desc_iterator::const_desc_iterator(const base_iterator& rhv) : base_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::const_desc_iterator::const_desc_iterator(base_iterator&& rhv) : base_iterator(rhv)
+{
+    *this = rhv;
+}
+
+const List::const_desc_iterator& List::const_desc_iterator::operator=(const base_iterator& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+const List::const_desc_iterator& List::const_desc_iterator::operator=(base_iterator&& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+List::const_reference List::const_desc_iterator::operator*() const
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return ptr->data;
+}
+
+List::const_pointer List::const_desc_iterator::operator->() const
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return &(ptr->data);
+}
+
+const List::const_desc_iterator& List::const_desc_iterator::operator++()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    ptr = ptr->small;
+    return *this;
+}
+
+const List::const_desc_iterator List::const_desc_iterator::operator++(value_type)
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    const_desc_iterator tmp = *this;
+    ptr = ptr->small;
+    return tmp;
+}
+
+const List::const_desc_iterator& List::const_desc_iterator::operator--()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    ptr = ptr->great;
+    return *this;
+}
+
+const List::const_desc_iterator List::const_desc_iterator::operator--(value_type)
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    const_desc_iterator tmp = *this;
+    ptr = ptr->great;
+    return tmp;
+}
+
+explicit List::const_desc_iterator::const_desc_iterator(Node* ptr) : base_iterator(ptr)
+{
+    this->ptr = ptr;
+}
+
+List::desc_iterator::desc_iterator(const base_iterator& rhv) : const_desc_iterator(rhv)
+{
+    *this = rhv; 
+}
+
+List::desc_iterator::desc_iterator(base_iterator&& rhv) : const_desc_iterator(rhv)
+{
+    *this = rhv; 
+}
+
+List::reference List::desc_iterator::operator*()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return ptr->data;
+}
+
+List::pointer List::desc_iterator::operator->()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return &(ptr->data);
+}
+
+const List::desc_iterator& List::desc_iterator::operator=(const base_iterator& rhv)
+{
+    *this = rhv;
+}
+
+const List::desc_iterator& List::desc_iterator::operator=(base_iterator&& rhv)
+{
+    *this = rhv;
+}
+
+explicit List::desc_iterator::desc_iterator(Node* ptr) : const_desc_iterator(ptr)
+{
+    this->ptr = ptr;
+}
+
+List::const_multi_iterator::const_multi_iterator(const base_iterator& rhv) : base_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::const_multi_iterator::const_multi_iterator(base_iterator&& rhv) : base_iterator(rhv)
+{
+    *this = rhv;
+}
+
+const List::const_multi_iterator& List::const_multi_iterator::operator=(const base_iterator& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+const List::const_multi_iterator& List::const_multi_iterator::operator=(base_iterator&& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+List::const_reference List::const_multi_iterator::operator*() const
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return ptr->data;
+}
+
+List::const_pointer List::const_multi_iterator::operator->()const
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return &(ptr->data);
+}
+
+const List::const_multi_iterator& List::const_multi_iterator::operator++()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    if(mode)
+    {
+        ptr = ptr->next;
+        return *this;
+    }
+    ptr = ptr->great;
+    return *this;
+}
+
+const List::const_multi_iterator List::const_multi_iterator::operator++(value_type)
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    if(mode)
+    {
+        const_multi_iterator tmp = *this;
+        ptr = ptr->next;
+        return tmp;
+    }
+    const_multi_iterator tmp = *this;
+    ptr = ptr->great;
+    return tmp;
 }
