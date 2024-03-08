@@ -4,6 +4,83 @@ List::List()
 {
     head = nullptr;
     tail = nullptr;
+    l_great = nullptr;
+    l_small = nullptr;
+}
+
+List::List(value_type size)
+{
+    Node *ptr = new Node;
+    Node *ptr = new Node;
+    ptr->data = 0;
+    head = ptr;
+    tail = ptr;
+    for(int i = 0; i < size - 1; ++i)
+    {
+        Node *ptr = new Node;
+        ptr->data = 0;
+        ptr->previous = tail;
+        ptr->small = tail;
+        ptr->graet = nullptr;
+        ptr->next = nullptr;
+        tail->great = ptr;
+        tail->next = ptr;
+        tail = ptr; 
+    }
+}
+
+List::List(size_type size, const_reference init)
+{
+    Node *ptr = new Node;
+    Node *ptr = new Node;
+    ptr->data = init;
+    head = ptr;
+    tail = ptr;
+    for(int i = 0; i < size - 1; ++i)
+    {
+        Node *ptr = new Node;
+        ptr->data = init;
+        ptr->previous = tail;
+        ptr->small = tail;
+        ptr->graet = nullptr;
+        ptr->next = nullptr;
+        tail->great = ptr;
+        tail->next = ptr;
+        tail = ptr; 
+    }
+}
+
+List::List(std::initializer_list<int> init)
+{
+    Node* ptr = new Node;
+    head = ptr;
+    ptr->data = *(init.begin());
+    tail = ptr;
+    l_great = ptr;
+    l_small = ptr;
+    int size = init.size();
+    for(int i = 1; i < size; ++i)
+    {
+        push_back(*(init.begin() + i));
+    }
+}
+
+template<typename input_iterator>
+List::List(input_iterator f, input_iterator l)
+{
+    Node *ptr = new Node;
+    head = ptr;
+    ptr->data = *f;
+    tail = ptr;
+    l_great = ptr;
+    l_small = ptr;
+    ++f;
+    ++l;
+    while(f != l && f)
+    {
+        push_back(*f);
+        ++f;
+    }
 }
 
 List::~List()
@@ -1145,4 +1222,248 @@ const List::const_multi_iterator List::const_multi_iterator::operator++(value_ty
     const_multi_iterator tmp = *this;
     ptr = ptr->great;
     return tmp;
+}
+
+const List::const_multi_iterator& List::const_multi_iterator::operator--()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    if(mode)
+    {
+        ptr = ptr->previous;
+        return *this;
+    }
+    ptr = ptr->small;
+    return *this;
+}
+
+const List::const_multi_iterator List::const_multi_iterator::operator--(value_type)
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    if(mode)
+    {
+        const_multi_iterator tmp = *this;
+        ptr = ptr->previous;
+        return tmp;
+    }
+    const_multi_iterator tmp = *this;
+    ptr =ptr->small;
+    return tmp;
+}
+
+void List::const_multi_iterator::chmod()
+{
+    mode = !mode;
+}
+
+explicit List::const_multi_iterator::const_multi_iterator(Node* ptr) : base_iterator(ptr)
+{
+    this->ptr = ptr;
+}
+
+List::multi_iterator::multi_iterator(const base_iterator& rhv) : const_multi_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::multi_iterator::multi_iterator(base_iterator&& rhv) : const_multi_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::reference List::multi_iterator::operator*()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return ptr->data;
+}
+
+List::pointer List::multi_iterator::operator->()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return &(ptr->data);
+}
+
+const List::multi_iterator& List::multi_iterator::operator=(const base_iterator& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+const List::multi_iterator List::multi_iterator::operator=(base_iterator&& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+explicit List::multi_iterator::multi_iterator(Node* ptr) : base_iterator(ptr)
+{
+    this->ptr = ptr;
+}
+
+List::const_multi_reverse_iterator::const_multi_reverse_iterator(const base_iterator& rhv) : base_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::const_multi_reverse_iterator::const_multi_reverse_iterator(base_iterator&& rhv) : base_iterator(rhv)
+{
+    *this = rhv;
+}
+
+const List::const_multi_reverse_iterator& List::const_multi_reverse_iterator::operator=(const base_iterator& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+const List::const_multi_reverse_iterator List::const_multi_reverse_iterator::operator=(base_iterator&& rhv)
+{
+    *this = rhv;
+    return *this;
+}
+
+List::const_reference List::const_multi_reverse_iterator::operator*() const
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return ptr->data;
+}
+
+List::const_pointer List::const_multi_reverse_iterator::operator->() const
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return &(ptr->data);
+}
+
+const List::const_multi_reverse_iterator& List::const_multi_reverse_iterator::operator++()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    if(mode)
+    {
+        ptr = ptr->great;
+        return *this;
+    }
+    ptr = ptr->next;
+    return *this;
+}
+
+const List::const_multi_reverse_iterator List::const_multi_reverse_iterator::operator++(value_type)
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    if(mode)
+    {
+        const_multi_reverse_iterator tmp = *this;
+        ptr = ptr->great;
+        return tmp;
+    }
+    const_multi_reverse_iterator tmp = *this;
+    ptr = ptr->next;
+    return tmp;
+}
+
+const List::const_multi_reverse_iterator& List::const_multi_reverse_iterator::operator--()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    if(mode)
+    {
+        ptr = ptr->small;
+        return *this;
+    }
+    ptr = ptr->previous;
+    return *this;
+}
+
+const List::const_multi_reverse_iterator List::const_multi_reverse_iterator::operator--(value_type)
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    if(mode)
+    {
+        const_multi_reverse_iterator tmp = *this;
+        ptr = ptr->small;
+        return tmp;
+    }
+    const_multi_reverse_iterator tmp = *this;
+    ptr = ptr->previous;
+    return tmp;
+}
+
+void List::const_multi_reverse_iterator::chmod()
+{
+    mode = !mode;
+}
+
+explicit List::const_multi_reverse_iterator::const_multi_reverse_iterator(Node* ptr) : base_iterator(ptr)
+{
+    this->ptr = ptr;
+}
+
+List::multi_reverse_iterator::multi_reverse_iterator(const base_iterator& rhv) : const_multi_reverse_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::multi_reverse_iterator::multi_reverse_iterator(base_iterator&& rhv) : const_multi_reverse_iterator(rhv)
+{
+    *this = rhv;
+}
+
+List::reference List::multi_reverse_iterator::operator*()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return ptr->data;
+}
+
+List::pointer List::multi_reverse_iterator::operator->()
+{
+    if(!ptr)
+    {
+        throw std::out_of_range(" ");
+    }
+    return &(ptr->data);
+}
+
+const List::multi_reverse_iterator& List::multi_reverse_iterator::operator=(const base_iterator& rhv)
+{
+    *this = rhv;
+}
+
+const List::multi_reverse_iterator& List::multi_reverse_iterator::operator=(base_iterator&& rhv)
+{
+    *this = rhv;
+}
+
+explicit multi_reverse_iterator(Node* ptr)
+{
+    this->ptr = ptr;
 }
