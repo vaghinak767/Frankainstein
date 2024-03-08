@@ -10,10 +10,15 @@ public:
     using const_pointer = const value_type*;
 public:
     List();
-    ~List();
+    List(value_type size);
+    List(size_type size, const_reference init);
     List(const List &other);
-    const List &operator=(const List &other);
     List(List &&other);
+    List(std::initializer_list<int> init);
+    template<typename inpute_iterator>
+    List(intput_iterator f, input_iterator l);
+    ~List();
+    const List &operator=(const List &other);
     const List &operator=(List &&other);
     bool empty();
     void push_back(int el);
@@ -186,13 +191,61 @@ public:
         const_reference operator*() const;
         const_pointer operator->() const;
         const const_multi_iterator& operator++();
-        const const_multi_iterator operator++(value_type); //O(1)
-        const const_multi_iterator& operator--(); //O(1)
+        const const_multi_iterator operator++(value_type);
+        const const_multi_iterator& operator--();
         const const_multi_iterator operator--(value_type);
-        void chmod(); //O(1)
+        void chmod();
     protected:
-        explicit const_multi_iterator(Node* ptr); //O(1)
+        explicit const_multi_iterator(Node* ptr);
         bool mode = true;
+    };
+public:
+    class multi_iterator : public const_multi_iterator
+    {
+        friend List;
+    public:
+        multi_iterator(const base_iterator& rhv);
+        multi_iterator(base_iterator&& rhv);
+        reference operator*();
+        pointer operator->();
+        const multi_iterator& operator=(const base_iterator& rhv);
+        const multi_iterator& operator=(base_iterator&& rhv);     
+    protected:
+        explicit multi_iterator(Node* ptr);
+    };
+public:
+    class const_multi_reverse_iterator : public base_iterator
+    {
+        friend List;
+    public:
+        const_multi_reverse_iterator(const base_iterator& rhv);
+        const_multi_reverse_iterator(base_iterator&& rhv);
+        const const_multi_reverse_iterator& operator=(const base_iterator& rhv);
+        const const_multi_reverse_iterator& operator=(base_iterator&& rhv);
+        const_reference operator*() const;
+        const_pointer operator->() const;
+        const const_multi_reverse_iterator& operator++();
+        const const_multi_reverse_iterator operator++(value_type);
+        const const_multi_reverse_iterator& operator--();
+        const const_multi_reverse_iterator operator--(value_type);
+        void chmod();
+    protected:
+        explicit const_multi_reverse_iterator(Node* ptr);
+        bool mode = true;
+    };
+public:
+    class multi_reverse_iterator : public const_multi_reverse_iterator
+    {
+        friend List;
+    public:
+        multi_reverse_iterator(const base_iterator& rhv);
+        multi_reverse_iterator(base_iterator&& rhv);
+        reference operator*();
+        pointer operator->();
+        const multi_reverse_iterator& operator=(const base_iterator& rhv);
+        const multi_reverse_iterator& operator=(base_iterator&& rhv);
+    protected:
+        explicit multi_reverse_iterator(Node* ptr);
     };
 private:
     Node *head = nullptr;
