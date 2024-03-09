@@ -16,10 +16,17 @@ public:
     List(List &&other);
     List(std::initializer_list<int> init);
     template<typename inpute_iterator>
-    List(intput_iterator f, input_iterator l);
+    List(inpute_iterator f, inpute_iterator l);
     ~List();
-    const List &operator=(const List &other);
-    const List &operator=(List &&other);
+    const List& operator=(const List &other);
+    const List& operator=(List &&other);
+    const List& operator=(std::initializer_list<value_type> init);
+    bool operator==(const List& rhv) const;
+    bool operator!=(const List& rhv) const;
+    bool operator<(const List& rhv) const;
+    bool operator<=(const List& rhv) const;
+    bool operator>(const List& rhv) const;
+    bool operator>=(const List& rhv) const;
     bool empty();
     void push_back(int el);
     void push_front(int el);
@@ -29,15 +36,28 @@ public:
     void erase(int pos);
     void erase(int first, int last);
     void dis();
+    void insert(int index, int data);
     void pop_back();
     void pop_front();
     int size();
-    void insert(int index, int data);
     int get(int index);
     void remove(int el);
     int operator[](int index);
     bool operator==(const List& ob)const;
     const List operator+(const List& ob);
+    void swap(List& rhv);
+    size_type size() const; 
+    void resize(size_type s, const_reference init = value_type());
+    void clear() noexcept;
+    const_reference front() const; 
+    reference front();
+    const_reference back() const;
+    reference back();
+    const_reference min() const;
+    reference min();
+    const_reference max() const;
+    reference max();
+    void reveres();
 private:
 	class base_iterator
     {
@@ -247,6 +267,75 @@ public:
     protected:
         explicit multi_reverse_iterator(Node* ptr);
     };
+protected:
+    iterator find(const_reference elem);
+    iterator rfind(const_reference elem);
+public:
+    void organize_left(Node* ptr);
+    void organize_right(Node* ptr);
+    const_iterator cbegin() const;
+    const_iterator cend() const;
+    const_reverse_iterator crbegin() const;
+    const_reverse_iterator crend() const;
+    const_asc_iterator cabegin() const;
+    const_asc_iterator caend() const; 
+    const_desc_iterator cdbegin() const; 
+    const_desc_iterator cdend() const;
+    const_multi_iterator cmbegin() const;
+    const_multi_iterator cmend() const;
+    // const_multi_iterator cmabegin() const;
+    // const_multi_iterator cmaend() const; //
+    const_multi_reverse_iterator cmrbegin() const;
+    const_multi_reverse_iterator cmrend() const;
+    // const_multi_reverse_iterator cmrdbegin() const; //O(1)
+    // const_multi_reverse_iterator cmrdend() const; //O(1)
+    iterator begin();
+    iterator end();
+    reverse_iterator rbegin();
+    reverse_iterator rend();
+    asc_iterator abegin();
+    asc_iterator aend();
+    desc_iterator dbegin();
+    desc_iterator dend();
+    multi_iterator mbegin();
+    multi_iterator mend();
+    //multi_iterator mabegin();
+    //multi_iterator maend();
+    multi_reverse_iterator mrbegin();
+    multi_reverse_iterator mrend();
+    //multi_reverse_iterator mrdbegin(); //O(1)
+    //multi_reverse_iterator mrdend(); //O(1)
+// public:
+//     template <typename iter>
+//     typename std::enable_if<std::is_base_of<const_iterator, iter>::value ||
+//                               std::is_base_of<const_asc_iterator, iter>::value ||
+//                               std::is_base_of<const_multi_iterator, iter>::value, 
+//              iter>::type
+//     insert(iter pos, const_reference val) { //O(1)
+//         return insert_def(pos, val);
+//     }
+    
+//     template <typename iter>
+//     typename std::enable_if<std::is_base_of<const_reverse_iterator, iter>::value ||
+//                               std::is_base_of<const_desc_iterator, iter>::value ||
+//                               std::is_base_of<const_multi_reverse_iterator, iter>::value,
+//              iter>::type
+//     insert(iter pos, const_reference val) { //O(1)
+//         return insert_rev(pos, val);
+//     }
+// private:
+//     private:
+//     template <typename iter>
+//     iter insert_def(iter pos, const_reference val)
+//     {
+
+//     }
+    
+//     template <typename iter>
+//     iter insert_rev(iter pos, const_reference val)
+//     {
+
+//     }
 private:
     Node *head = nullptr;
     Node *tail = nullptr;
