@@ -1587,19 +1587,18 @@ List::reference List::max()
 
 void List::reveres()
 {
-    Node *f = head;
-    Node *l = tail;
-    int size = this->size();
-    for(int i = 0; i < size / 2; ++i)
-    {
-        int tmp = f->data;
-        f->data = l->data;
-        l->data = tmp;
-        f = f->next;
-        l = l->previous;
-    }
+  Node *f = head;
+  Node *l = tail;
+  int size = this->size();
+  for (int i = 0; i < size / 2; ++i)
+  {
+    int tmp = f->data;
+    f->data = l->data;
+    l->data = tmp;
+    f = f->next;
+    l = l->previous;
+  }
 }
-
 
 void List::swap(List &rhv)
 {
@@ -1622,196 +1621,239 @@ void List::swap(List &rhv)
 
 List::iterator List::find(const_reference elem)
 {
-    iterator tmp(this->head);
-    Node* ptr = head;
-    while(tmp.ptr)
+  iterator tmp(this->head);
+  Node *ptr = head;
+  while (tmp.ptr)
+  {
+    if (*tmp == elem)
     {
-        if(*tmp == elem)
-        {
-            return tmp;
-        }
-        ptr = ptr->next;
-        ++tmp;
+      return tmp;
     }
-    if(tmp == (iterator)head)
-        return tmp;
-    organize_left(ptr);
+    ptr = ptr->next;
+    ++tmp;
+  }
+  if (tmp == (iterator)head)
+    return tmp;
+  organize_left(ptr);
 }
 
 List::iterator List::rfind(const_reference elem)
 {
-    iterator tmp(this->head);
-    Node* ptr = head;
-    while(tmp.ptr)
+  iterator tmp(this->head);
+  Node *ptr = head;
+  while (tmp.ptr)
+  {
+    if (*tmp == elem)
     {
-        if(*tmp == elem)
-        {
-            return tmp;
-        }
-        ptr = ptr->next;
-        ++tmp;
+      return tmp;
     }
-    if(tmp == (iterator)head)
-        return tmp;
-    organize_right(ptr);
+    ptr = ptr->next;
+    ++tmp;
+  }
+  if (tmp == (iterator)head)
+    return tmp;
+  organize_right(ptr);
 }
 
-void List::organize_left(Node* ptr)
-{   
-    if(!ptr->previous)
-      return;
-    Node* tmp1 = ptr->next;
-    ptr->next = ptr->previous;
-    ptr->previous = tmp1;
-    if(ptr->previous)
-    {
-        ptr->previous = ptr->previous->previous;
-        ptr->previous->next = ptr;
-    }
-    ptr->previous = ptr;
-}
-
-void List::organize_right(Node* ptr)
+void List::organize_left(Node *ptr)
 {
-    if(!ptr->next)
-      return;
-    Node* tmp1 = ptr->previous;
-    ptr->previous = ptr->next;
-    ptr->next = tmp1;
-    if(ptr->next)
-    {
-        ptr->next = ptr->next->next;
-        ptr->next->previous = ptr;
-    }
-    ptr->next = ptr;
+  if (!ptr->previous)
+    return;
+  Node *tmp1 = ptr->next;
+  ptr->next = ptr->previous;
+  ptr->previous = tmp1;
+  if (ptr->previous)
+  {
+    ptr->previous = ptr->previous->previous;
+    ptr->previous->next = ptr;
+  }
+  ptr->previous = ptr;
+}
+
+void List::organize_right(Node *ptr)
+{
+  if (!ptr->next)
+    return;
+  Node *tmp1 = ptr->previous;
+  ptr->previous = ptr->next;
+  ptr->next = tmp1;
+  if (ptr->next)
+  {
+    ptr->next = ptr->next->next;
+    ptr->next->previous = ptr;
+  }
+  ptr->next = ptr;
 }
 
 List::const_iterator List::cbegin() const
 {
-    return const_iterator(head);
+  return const_iterator(head);
 }
 
 List::const_iterator List::cend() const
 {
-    return const_iterator(nullptr);
+  return const_iterator(nullptr);
 }
 
 List::const_reverse_iterator List::crbegin() const
 {
-    return const_reverse_iterator(head);
+  return const_reverse_iterator(head);
 }
 
 List::const_reverse_iterator List::crend() const
 {
-    return const_reverse_iterator(nullptr);
+  return const_reverse_iterator(nullptr);
 }
 
 List::const_asc_iterator List::cabegin() const
 {
-    return const_asc_iterator(head);
+  return const_asc_iterator(head);
 }
 
 List::const_asc_iterator List::caend() const
 {
-    return const_asc_iterator(nullptr);
+  return const_asc_iterator(nullptr);
 }
 
 List::const_desc_iterator List::cdbegin() const
 {
-    return const_desc_iterator(head);
+  return const_desc_iterator(head);
 }
 
 List::const_desc_iterator List::cdend() const
 {
-    return const_desc_iterator(nullptr);
+  return const_desc_iterator(nullptr);
 }
 
 List::const_multi_iterator List::cmbegin() const
 {
-    return const_multi_iterator(head); 
+  return const_multi_iterator(head);
 }
 
 List::const_multi_iterator List::cmend() const
 {
-    return const_multi_iterator(nullptr); 
+  return const_multi_iterator(nullptr);
 }
 
-// List::const_multi_iterator List::cmabegin() const
-// List::const_multi_iterator List::cmaend() const
+List::const_multi_iterator List::cmabegin() const
+{
+    return const_multi_iterator(l_small);
+}
+List::const_multi_iterator List::cmaend() const
+{
+    return const_multi_iterator(l_great);
+}
+
 List::const_multi_reverse_iterator List::cmrbegin() const
 {
-    return const_multi_reverse_iterator(head);
+  return const_multi_reverse_iterator(head);
 }
 
 List::const_multi_reverse_iterator List::cmrend() const
 {
-    return const_multi_reverse_iterator(nullptr);
+  return const_multi_reverse_iterator(nullptr);
 }
-// List::const_multi_reverse_iterator List::cmrdbegin() const
-// List::const_multi_reverse_iterator List::cmrdend() const
+List::const_multi_reverse_iterator List::cmrdbegin() const
+{
+    return const_multi_reverse_iterator(l_small);
+}
+
+List::const_multi_reverse_iterator List::cmrdend() const
+{
+    return const_multi_reverse_iterator(l_great);
+}
 
 List::iterator List::begin()
 {
-    return iterator(head);
+  return iterator(head);
 }
 
 List::iterator List::end()
 {
-    return iterator(nullptr);
+  return iterator(nullptr);
 }
 
 List::reverse_iterator List::rbegin()
 {
-    return reverse_iterator(head);
+  return reverse_iterator(head);
 }
 
 List::reverse_iterator List::rend()
 {
-    return reverse_iterator(nullptr);
+  return reverse_iterator(nullptr);
 }
 
 List::asc_iterator List::abegin()
 {
-    return asc_iterator(head);
+  return asc_iterator(head);
 }
 
 List::asc_iterator List::aend()
 {
-    return asc_iterator(nullptr);
+  return asc_iterator(nullptr);
 }
 
 List::desc_iterator List::dbegin()
 {
-    return desc_iterator(head);
+  return desc_iterator(head);
 }
 
 List::desc_iterator List::dend()
 {
-    return desc_iterator(nullptr);
+  return desc_iterator(nullptr);
 }
 
 List::multi_iterator List::mbegin()
 {
-    return multi_iterator(head);
+  return multi_iterator(head);
 }
 
 List::multi_iterator List::mend()
 {
-    return multi_iterator(nullptr);
+  return multi_iterator(nullptr);
 }
 
-//List::multi_iterator List::mabegin()
-//List::multi_iterator List::maend()
+List::multi_iterator List::mabegin()
+{
+    return multi_iterator(l_small);
+}
+
+List::multi_iterator List::maend()
+{
+    return multi_iterator(l_great);
+}
 
 List::multi_reverse_iterator List::mrbegin()
 {
-    return multi_reverse_iterator(head);
+  return multi_reverse_iterator(head);
 }
 
 List::multi_reverse_iterator List::mrend()
 {
-    return multi_reverse_iterator(nullptr);
+  return multi_reverse_iterator(nullptr);
 }
 
-//List::multi_reverse_iterator List::mrdbegin()
-//List::multi_reverse_iterator List::mrdend()
+List::multi_reverse_iterator List::mrdbegin()
+{
+    return multi_reverse_iterator(l_small);
+}
+
+List::multi_reverse_iterator List::mrdend()
+{
+    return multi_reverse_iterator(l_great);
+}
+
+template <typename iter>
+iter erase(iter pos)
+{
+  erase(*pos);
+}
+template <typename iter>
+iter erase(iter f, iter l)
+{
+  while (f != l && f.ptr)
+  {
+    erase(*f);
+    ++f;
+  }
+}
