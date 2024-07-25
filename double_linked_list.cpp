@@ -6,16 +6,18 @@ List::List()
   tail = nullptr;
   l_great = nullptr;
   l_small = nullptr;
+  m_size = 0;
 }
 
 List::List(value_type size)
 {
-  Node *ptr = new Node;
-  Node *ptr = new Node;
-  ptr->data = 0;
-  head = ptr;
-  tail = ptr;
-  for (int i = 0; i < size - 1; ++i)
+  Node *pt = new Node;
+  pt->data = 0;
+  head = pt;
+  l_great = head;
+  l_small = head;
+  tail = pt;
+  for (int i = 1; i < size; ++i)
   {
     Node *ptr = new Node;
     ptr->data = 0;
@@ -23,20 +25,20 @@ List::List(value_type size)
     ptr->small = tail;
     ptr->great = nullptr;
     ptr->next = nullptr;
-    tail->great = ptr;
-    tail->next = ptr;
     tail = ptr;
   }
+  m_size = size;
 }
 
 List::List(size_type size, const_reference init)
 {
-  Node *ptr = new Node;
-  Node *ptr = new Node;
-  ptr->data = init;
-  head = ptr;
-  tail = ptr;
-  for (int i = 0; i < size - 1; ++i)
+  Node *pt = new Node;
+  pt->data = init;
+  head = pt;
+  l_great = head;
+  l_small = head;
+  tail = pt;
+  for (int i = 1; i < size; ++i)
   {
     Node *ptr = new Node;
     ptr->data = init;
@@ -44,10 +46,9 @@ List::List(size_type size, const_reference init)
     ptr->small = tail;
     ptr->great = nullptr;
     ptr->next = nullptr;
-    tail->great = ptr;
-    tail->next = ptr;
     tail = ptr;
   }
+  m_size = size;
 }
 
 List::List(std::initializer_list<int> init)
@@ -58,8 +59,8 @@ List::List(std::initializer_list<int> init)
   tail = ptr;
   l_great = ptr;
   l_small = ptr;
-  int size = init.size();
-  for (int i = 1; i < size; ++i)
+  m_size = init.size();
+  for (int i = 1; i < m_size; ++i)
   {
     push_back(*(init.begin() + i));
   }
