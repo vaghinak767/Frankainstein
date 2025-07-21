@@ -1,76 +1,93 @@
 # 🧾 Frankainstain Doubly Linked List Class in C++
 
-This project implements a custom doubly linked `List` class in C++, offering flexible insertion, deletion, access, and traversal functionality. The list supports bidirectional iterators, reverse iterators, ascending/descending/multi-mode traversal, and STL-like operations, that's why it is called Frankainstain.
+This project implements a custom doubly linked `List` class in C++, which provides an efficient and flexible container for managing a sequence of integers. The list supports a wide variety of operations, including insertion, deletion, searching, and traversal, using both forward and reverse iterators. This class mimics a basic implementation of a linked list while offering custom features like multi-mode traversal, that's why it is called Frankainstain.
 
 ---
 
 ## 📁 Features
 
-✅ Doubly linked list with rich iterator support  
-✅ Copy/move constructors and assignments  
-✅ Bidirectional and reverse iterators  
-✅ Multi-mode traversal with `multi_iterator`  
-✅ Insertion and erasure by position or range  
-✅ Access front, back, min, max elements  
-✅ Comparison and arithmetic operators  
-✅ Custom `display` functions  
+✅ **Dynamic List Management**: The list can grow and shrink dynamically based on user needs.  
+✅ **Iterator Support**: Full support for bidirectional, reverse, ascending, descending, and multi-mode iterators.  
+✅ **Memory Management**: Proper memory management with the use of dynamic memory allocation and custom destructors.  
+✅ **STL-like Operations**: Implements comparison, addition, and other common list operations.  
+✅ **Custom Display**: Display list contents in ascending or descending order.  
+✅ **Multi-mode Iterators**: Supports advanced iterators like `multi_iterator` for flexible traversal modes.
 
 ---
 
 ## 🧩 Class Overview
 
 ### Constructors
-- `List()`: default empty constructor  
-- `List(size_t size)`: uninitialized list of `size`  
-- `List(size_t size, const_reference init)`: initialized with `init`  
-- `List(std::initializer_list<int>)`: initializer list  
-- Copy and move constructors  
-- Range constructor with template iterator
+
+- **`List()`**: Default constructor that initializes an empty list.
+  
+- **`List(size_t size)`**: Constructor that creates a list of a specified size, but the elements are uninitialized.
+
+- **`List(size_t size, const_reference init)`**: Initializes the list with `size` elements, all set to the value `init`.
+
+- **`List(std::initializer_list<int> init)`**: Initializes the list with the values provided in the initializer list.
+
+- **`List(input_iterator f, input_iterator l)`**: A range constructor that initializes the list by iterating over a specified range of iterators.
+
+- **Copy and Move Constructors**: Support for copying and transferring ownership of list data.
 
 ---
 
-### 🧠 Key Methods
+### 🔧 Key Methods
 
-| Method                  | Description                                |
-|------------------------|--------------------------------------------|
-| `push_back(int)`       | Adds element at the end                    |
-| `push_front(int)`      | Adds element at the front                  |
-| `insert(index, value)` | Inserts at specific position               |
-| `pop_back()`           | Removes last element                       |
-| `pop_front()`          | Removes first element                      |
-| `erase(pos)`           | Removes element by index                   |
-| `erase(first, last)`   | Removes a range of elements                |
-| `remove(value)`        | Removes first occurrence of value          |
-| `resize(n)`            | Resizes to `n` elements                    |
-| `clear()`              | Clears the list                            |
-| `size()`               | Returns list size                          |
-| `min()` / `max()`      | Returns min/max elements                   |
-| `reveres()`            | Reverses the list                          |
-| `get(index)`           | Access by index                            |
-
----
-
-### 📐 Operators
-
-- `==`, `!=`, `<`, `>`, `<=`, `>=`: comparison  
-- `+`: concatenation of two lists  
-- `[]`: indexed access  
-- Assignment operators for copy, move, initializer list
+| Method                      | Description                                    |
+|----------------------------|------------------------------------------------|
+| **`push_back(int)`**        | Adds an element at the end of the list.        |
+| **`push_front(int)`**       | Adds an element at the front of the list.      |
+| **`insert(int index, int data)`** | Inserts an element at a specific position in the list. |
+| **`pop_back()`**            | Removes the last element from the list.        |
+| **`pop_front()`**           | Removes the first element from the list.       |
+| **`erase(int pos)`**        | Removes an element at the specified position.  |
+| **`erase(int first, int last)`** | Removes a range of elements between `first` and `last`. |
+| **`remove(int el)`**        | Removes the first occurrence of element `el`.  |
+| **`resize(size_type s)`**   | Resizes the list to `s` elements. The new elements are initialized to the default value. |
+| **`clear()`**               | Removes all elements from the list, deallocating memory. |
+| **`size()`**                | Returns the number of elements in the list.    |
+| **`min()` / `max()`**       | Returns the minimum/maximum element in the list. |
+| **`reverse()`**             | Reverses the order of the list.                |
+| **`display_inc()`**         | Displays the list elements in ascending order. |
+| **`display_dec()`**         | Displays the list elements in descending order. |
+| **`get(int index)`**        | Returns the element at a specified index.      |
 
 ---
 
-### 🔁 Iterators
+### 🧑‍💻 Iterator Support
 
-| Type                      | Direction | Notes                                      |
-|---------------------------|-----------|--------------------------------------------|
-| `iterator`                | Forward   | Mutable forward iterator                   |
-| `const_iterator`          | Forward   | Immutable forward iterator                 |
-| `reverse_iterator`        | Reverse   | Mutable reverse iterator                   |
-| `const_reverse_iterator`  | Reverse   | Immutable reverse iterator                 |
-| `asc_iterator`            | Ascending | Based on value order                       |
-| `desc_iterator`           | Descending| Based on value order                       |
-| `multi_iterator`          | Multi-mode| Mode-switchable iterator                   |
-| `multi_reverse_iterator`  | Reverse + mode| Multi-mode in reverse                     |
+This class offers multiple types of iterators for traversing the list:
+
+| Type                        | Direction  | Description                            |
+|-----------------------------|------------|----------------------------------------|
+| **`iterator`**               | Forward    | Mutable forward iterator. Allows modification of elements. |
+| **`const_iterator`**         | Forward    | Immutable forward iterator. Can't modify elements. |
+| **`reverse_iterator`**       | Reverse    | Mutable reverse iterator. Allows modification of elements while traversing the list in reverse. |
+| **`const_reverse_iterator`** | Reverse    | Immutable reverse iterator. |
+| **`asc_iterator`**           | Ascending  | Traverses the list in ascending order based on element value. |
+| **`desc_iterator`**          | Descending | Traverses the list in descending order based on element value. |
+| **`multi_iterator`**         | Multi-mode | Special iterator with mode switching, enabling flexible traversals. |
+| **`multi_reverse_iterator`** | Reverse & Multi-mode | A reverse iterator with mode switching. |
+
+### 🧑‍🔧 Custom Iterators
+
+- The `base_iterator` class is the foundation for all iterator types. It holds the raw pointer (`Node* ptr`) to the current element.
+  
+- **`const_iterator`, `iterator`, `const_reverse_iterator`, `reverse_iterator`**: These iterators extend the `base_iterator` and add custom functionality to access or modify the elements in forward or reverse order.
+  
+- **`asc_iterator`, `desc_iterator`, `multi_iterator`, `multi_reverse_iterator`**: Specialized iterators that allow the list to be traversed in various ways — either based on value order (ascending or descending) or by switching modes.
+
+---
+
+### 🧩 Additional Functionality
+
+- **Element Access**: The class supports random access via the `operator[]`, allowing you to access list elements by index.
+
+- **Comparison Operators**: You can compare two lists using `==`, `!=`, `<`, `>`, `<=`, and `>=` operators, enabling easy list comparison.
+
+- **Memory Management**: The `clear()` function safely deallocates memory and ensures no memory leaks occur when removing elements or clearing the entire list.
 
 ---
 
@@ -79,18 +96,24 @@ This project implements a custom doubly linked `List` class in C++, offering fle
 ```cpp
 #include "List.h"
 
-List myList = {4, 1, 9, 5};
+List myList = {10, 20, 30, 40};
 
-myList.push_back(10);
-myList.push_front(3);
-myList.insert(2, 7);
+// Add elements to the list
+myList.push_back(50);
+myList.push_front(5);
 
-std::cout << myList.front() << " to " << myList.back() << std::endl;
-
+// Display elements in ascending order
 myList.display_inc();
-myList.reveres();
-myList.display_dec();
 
+// Remove elements by index
+myList.erase(1);  // Removes element at index 1
+
+// Traverse with custom iterator
 for (auto it = myList.begin(); it != myList.end(); ++it) {
     std::cout << *it << " ";
 }
+
+// Reverse the list
+myList.reverse();
+myList.display_dec();
+
